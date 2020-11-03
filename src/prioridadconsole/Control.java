@@ -1,5 +1,7 @@
 package prioridadconsole;
 
+import javax.swing.JLabel;
+
 /**
  * @org Instituto Tecnológico de Toluca
  * @author Humberto Avila Ortiz
@@ -13,9 +15,15 @@ public class Control extends Thread{
      */
     
     private Pendiente lista;
+    private javax.swing.JLabel label;
     
     public Control(Pendiente p){
         lista = p;
+    }
+    
+    public Control(Pendiente p, javax.swing.JLabel label){
+        lista = p;
+        this.label = label;
     }
     
     @Override
@@ -24,6 +32,7 @@ public class Control extends Thread{
         Hilo index = lista.getNext();
         while (true){
             if (index != null && !index.isAlive()){
+                label.setText("Proceso Actual: " + index.getNombre());
                 index.start();
                 try{
                     Thread.sleep(index.getDuracion()*1000);
@@ -33,6 +42,22 @@ public class Control extends Thread{
                 index = lista.getNext();
             } else break;
         }
+    }
+
+    public Pendiente getLista() {
+        return lista;
+    }
+
+    public void setLista(Pendiente lista) {
+        this.lista = lista;
+    }
+
+    public JLabel getLabel() {
+        return label;
+    }
+
+    public void setLabel(JLabel label) {
+        this.label = label;
     }
     
 }

@@ -19,6 +19,8 @@ public class Main extends javax.swing.JFrame {
         tareasPendientes = new Pendiente();
         ctrl = new Control(tareasPendientes);
         initComponents();
+        ctrl.setLabel(jLabel1);
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -33,8 +35,12 @@ public class Main extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jProgressBar1 = new javax.swing.JProgressBar();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Sistemas Operativos - Procesos");
+        setResizable(false);
 
         jButton1.setText("jButton1");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -57,18 +63,26 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Proceso Actual:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1)
-                .addGap(18, 18, 18)
-                .addComponent(jButton2)
-                .addGap(18, 18, 18)
-                .addComponent(jButton3)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton3)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -78,7 +92,11 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(jButton1)
                     .addComponent(jButton2)
                     .addComponent(jButton3))
-                .addContainerGap(134, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel1)
+                .addGap(15, 15, 15)
+                .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(79, Short.MAX_VALUE))
         );
 
         pack();
@@ -86,7 +104,7 @@ public class Main extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         bajo++;
-        tareasPendientes.add(new Hilo("hilo a" + bajo, 2));
+        tareasPendientes.add(new Hilo("hilo a" + bajo, 2, jProgressBar1));
         if (!ctrl.isAlive()) {
             try {
                 ctrl.start();
@@ -96,7 +114,7 @@ public class Main extends javax.swing.JFrame {
                 // y se vuelve a declarar.
                 //TODO: finalizar correctamente la ejecución del primer hilo
                 // para optimizar el uso de memoria
-                ctrl = new Control(tareasPendientes);
+                ctrl = new Control(tareasPendientes, jLabel1);
                 ctrl.start();
             }
         }
@@ -104,12 +122,12 @@ public class Main extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         medio++;
-        tareasPendientes.add(new Hilo("hilo b" + medio, 3));
+        tareasPendientes.add(new Hilo("hilo b" + medio, 3, jProgressBar1));
         if (!ctrl.isAlive()) {
             try {
                 ctrl.start();
             } catch(IllegalThreadStateException e){
-                ctrl = new Control(tareasPendientes);
+                ctrl = new Control(tareasPendientes, jLabel1);
                 ctrl.start();
             }
         }
@@ -117,12 +135,12 @@ public class Main extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         alto++;
-        tareasPendientes.add(new Hilo("hilo c" + alto, 4));
+        tareasPendientes.add(new Hilo("hilo c" + alto, 4, jProgressBar1));
         if (!ctrl.isAlive()) {
             try {
                 ctrl.start();
             } catch(IllegalThreadStateException e){
-                ctrl = new Control(tareasPendientes);
+                ctrl = new Control(tareasPendientes, jLabel1);
                 ctrl.start();
             }
         }
@@ -167,5 +185,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JProgressBar jProgressBar1;
     // End of variables declaration//GEN-END:variables
 }
